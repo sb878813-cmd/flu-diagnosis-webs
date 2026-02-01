@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Flu Diagnosis</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>AI-Based Seasonal Flu Diagnosis</h1>
+
+<form method="POST">
+    <input name="name" placeholder="Patient Name" required>
+    <input name="age" type="number" placeholder="Age" required>
+
+    <input name="temperature" placeholder="Temperature (°F)" required>
+    <input name="sys_bp" placeholder="Systolic BP" required>
+    <input name="dia_bp" placeholder="Diastolic BP" required>
+
+    <h3>Symptoms</h3>
+    <label><input type="checkbox" name="symptoms" value="Fever"> Fever</label>
+    <label><input type="checkbox" name="symptoms" value="Cough"> Cough</label>
+    <label><input type="checkbox" name="symptoms" value="Body Ache"> Body Ache</label>
+    <label><input type="checkbox" name="symptoms" value="Headache"> Headache</label>
+
+    <br><br>
+    <button type="submit">Diagnose</button>
+</form>
+
+{% if result %}
+<h2>Result</h2>
+<p>Probability: {{ result[0] }}%</p>
+<p>Risk Level: {{ result[1] }}</p>
+
+<form method="POST" action="/download">
+    {% for key, value in request.form.items() %}
+    <input type="hidden" name="{{ key }}" value="{{ value }}">
+    {% endfor %}
+    <button>Download PDF Report</button>
+</form>
+{% endif %}
+
+</body>
+</html>
